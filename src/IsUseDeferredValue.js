@@ -1,6 +1,6 @@
 import { useMemo, useState, useDeferredValue, useId } from 'react'
 import data from './exemple/data/phone.json'
-function App() {
+function IsUseDeferredValue() {
   const [items, setdata] = useState(data)
 
   const [value, setvalue] = useState('')
@@ -27,4 +27,4 @@ function App() {
   )
 }
 
-export default App
+export default IsUseDeferredValue
