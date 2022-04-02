@@ -1,26 +1,31 @@
-import { useState } from 'react'
-
+import { useMemo, useState, } from 'react'
+import data from './exemple/data/phone.json'
 function App() {
-  const [state, setState] = useState(1)
-  const [value, setValue] = useState(1)
+  const [value, setvalue] = useState('')
+  const [items, setdata] = useState(data)
+  // const [] = useTransition()
 
-  const update = () => {
-    setState((prev) => prev + 1)
-    setValue((prev) => prev + 1)
-  }
+  const filteredItems = useMemo(() => {
+    return items.filter((it) => it.phone.toLowerCase().includes(value))
+  }, [value])
+
   console.log('render')
-
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>
-        {value} -{state}
+        <input
+          type='text'
+          value={value}
+          onChange={(e) => setvalue(e.target.value)}
+        />
       </h1>
-      <button type='button' onClick={update}>
-        change
-      </button>
+      <div>
+        {filteredItems.map((el, i) => (
+          <h4 key={i}>{el.phone}</h4>
+        ))}
+      </div>
     </div>
   )
 }
 
 export default App
-
