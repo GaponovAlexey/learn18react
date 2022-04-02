@@ -1,29 +1,22 @@
-import { useMemo, useState, useTransition } from 'react'
+import { useMemo, useState, useDeferredValue, useId } from 'react'
 import data from './exemple/data/phone.json'
 function App() {
-  const [value, setvalue] = useState('')
-  const [FilterValue, setFilterValue] = useState('')
-
   const [items, setdata] = useState(data)
-  const [isPending, startTransition] = useTransition()
+
+  const [value, setvalue] = useState('')
+  const deferredValue = useDeferredValue(value)
 
   const filteredItems = useMemo(() => {
-    return items.filter((it) => it.phone.toLowerCase().includes(FilterValue))
-  }, [FilterValue])
-
-  const onChangeValue = (e) => {
-    setvalue(e.target.value)
-    startTransition(() => {
-      setFilterValue(e.target.value)
-    })
-  }
-
-  console.log('render')
+    return items.filter((it) => it.phone.toLowerCase().includes(deferredValue))
+  }, [deferredValue])
   return (
     <div style={{ textAlign: 'center' }}>
-      {isPending && <h1>Loading...</h1>}
       <h1>
-        <input type='text' value={value} onChange={onChangeValue} />
+        <input
+          type='text'
+          value={value}
+          onChange={(e) => setvalue(e.target.value)}
+        />
       </h1>
       <div>
         {filteredItems.map((el, i) => (
